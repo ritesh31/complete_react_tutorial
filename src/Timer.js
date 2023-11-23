@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 function Timer() {
   const [counter, setCounter] = useState(0);
@@ -26,6 +26,10 @@ function Timer() {
     return () => {
       console.log("useEffect 2 unmount");
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    console.log("running useLayoutEffect");
   }, []);
 
   return <div>Timer: {counter}</div>;
