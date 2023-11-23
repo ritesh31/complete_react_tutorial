@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 
 function Timer() {
   const [counter, setCounter] = useState(0);
+  const interval = useRef();
 
   // useEffect dependecny array
   // null => execute every re-render
@@ -9,14 +10,13 @@ function Timer() {
   // with variables => execute when state & props variables change
 
   useEffect(() => {
-    let interval = setInterval(() => {
+    interval.current = setInterval(() => {
       console.log("Inside interval");
       setCounter((prevCounter) => prevCounter + 1);
     }, 1000);
 
     return () => {
       console.log("useEffect 1 unmount");
-      clearInterval(interval);
     };
   }, []);
 
@@ -28,11 +28,16 @@ function Timer() {
     };
   }, []);
 
-  useLayoutEffect(() => {
-    console.log("running useLayoutEffect");
-  }, []);
+  const stopTimer = () => {
+    clearInterval(interval.current);
+  };
 
-  return <div>Timer: {counter}</div>;
+  return (
+    <>
+      <div>Timer: {counter}</div>
+      <button onClick={stopTimer}>Stop Timer</button>
+    </>
+  );
 }
 
 export default Timer;
