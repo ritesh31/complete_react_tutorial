@@ -1,28 +1,21 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Button from "./Button";
 import Text from "./Text";
 
 const App = () => {
-  const [data, setData] = useState([
-    { id: "01", text: "Text 1" },
-    { id: "02", text: "Text 2" },
-    { id: "03", text: "Text 3" },
-    { id: "04", text: "Text 4" },
-    { id: "05", text: "Text 5" },
-  ]);
+  const [message, updateMessage] = useState("Hello, This is Morning");
 
-  const handleButtonclick = () => {
-    console.log("First Button");
-    setData([{ id: "06", text: "Text 6" }, ...data]);
-  };
+  // To avoid re-rendering child component(Button) on state change 
+  // we can use useCallback hook for function & memo for child component
+  
+  const handleButtonclick = useCallback(() => {
+    updateMessage("Hello, This is Afternoon");
+  }, []);
 
   return (
     <div>
-      {data.map((ele) => (
-        <Text key={ele.id}>{ele.text}</Text>
-      ))}
-
-      <Button buttonclick={handleButtonclick}>Button 1</Button>
+      <div>{message}</div>
+      <Button buttonclick={handleButtonclick}>Button</Button>
     </div>
   );
 };

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
-function Button({ children, buttonclick }) {
+const Button = memo(({ children, buttonclick }) => {
+  console.log("Inside button");
   const handleClick = () => {
     buttonclick?.();
   };
@@ -10,6 +11,6 @@ function Button({ children, buttonclick }) {
       {children}
     </button>
   );
-}
+});
 
 export default Button;
