@@ -8,6 +8,8 @@ import Child from "./Child";
 import PrintTable from "./PrintTable";
 import ThemeContext from "./Context";
 import Form from "./Form";
+import { createPortal } from "react-dom";
+import Modal from "./Modal";
 
 const Text = lazy(() => delayForDemo(import("./Text")));
 
@@ -18,20 +20,14 @@ function delayForDemo(promise) {
 }
 
 const App = () => {
-  const [theme, setTheme] = useState("light");
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <ThemeContext.Provider value={theme}>
-      <p>Theme: {theme}</p>
-      <button
-        onClick={() =>
-          setTheme((prev) => (prev === "light" ? "dark" : "light"))
-        }
-      >
-        Change Theme
-      </button>
-      <Form theme={theme} />
-    </ThemeContext.Provider>
+    <>
+      <h4>This is root component</h4>
+      <button onClick={() => setShowModal(!showModal)}>Toggle Modal</button>
+      {showModal && createPortal(<Modal />, document.body)}
+    </>
   );
 };
 
