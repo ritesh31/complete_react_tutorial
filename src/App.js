@@ -1,45 +1,31 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { Suspense, lazy, useMemo, useRef, useState } from "react";
 import Button from "./Button";
-import Text from "./Text";
+// import Text from "./Text";
 import Timer from "./Timer";
 import ButtonWithTooltip from "./ButtonWithTooltip";
 import Input from "./Input";
 import Child from "./Child";
 import PrintTable from "./PrintTable";
 
+const Text = lazy(() => delayForDemo(import("./Text")));
+function delayForDemo(promise) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 2000);
+  }).then(() => promise);
+}
+
 const App = () => {
-  const [counter1, setCounter1] = useState(0);
-  const [counter2, setCounter2] = useState(0);
-  const [stateObj, setStateObj] = useState({ name: "JS Cafe" });
-  let localObj = useMemo(
-    () => ({
-      name: "JS Cafe",
-    }),
-    [localObj]
-  );
-  let temp = 10;
+  const [toggle, setToggle] = useState(false);
+
   return (
     <>
-      <h4>Outer component</h4>
-      <p>
-        <span>Count 1 : {counter1}</span>
-        <button onClick={() => setCounter1((prev) => prev + 1)}>
-          Count ++
-        </button>
-      </p>
-      <p>
-        <span>Count 2 : {counter2}</span>
-        <button onClick={() => setCounter2((prev) => prev + 1)}>
-          Count ++
-        </button>
-      </p>
+      <button onClick={() => setToggle(!toggle)}>Toggle</button>
 
-      <PrintTable
-        num={counter1}
-        stateObj={stateObj}
-        localObj={localObj}
-        temp={temp}
-      />
+      {toggle && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <Text>This is Lazy loading</Text>
+        </Suspense>
+      )}
     </>
   );
 };
