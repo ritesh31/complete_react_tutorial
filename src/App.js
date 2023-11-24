@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Button from "./Button";
 import Text from "./Text";
 import Timer from "./Timer";
@@ -10,7 +10,14 @@ import PrintTable from "./PrintTable";
 const App = () => {
   const [counter1, setCounter1] = useState(0);
   const [counter2, setCounter2] = useState(0);
-
+  const [stateObj, setStateObj] = useState({ name: "JS Cafe" });
+  let localObj = useMemo(
+    () => ({
+      name: "JS Cafe",
+    }),
+    [localObj]
+  );
+  let temp = 10;
   return (
     <>
       <h4>Outer component</h4>
@@ -27,7 +34,12 @@ const App = () => {
         </button>
       </p>
 
-      <PrintTable num={counter1} />
+      <PrintTable
+        num={counter1}
+        stateObj={stateObj}
+        localObj={localObj}
+        temp={temp}
+      />
     </>
   );
 };
