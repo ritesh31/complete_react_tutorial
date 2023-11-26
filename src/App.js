@@ -1,39 +1,46 @@
-import React, { Suspense, lazy, useMemo, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, incrementByAmount } from "./reducers/counterSlice";
-import Button from "./Button";
-// import Text from "./Text";
-import Timer from "./Timer";
-import ButtonWithTooltip from "./ButtonWithTooltip";
-import Input from "./Input";
-import Child from "./Child";
-import PrintTable from "./PrintTable";
-import ThemeContext from "./Context";
-import Form from "./Form";
-import { createPortal } from "react-dom";
-import Modal from "./Modal";
+import React from "react";
+import { Routes, Route, Link, useParams } from "react-router-dom";
 
-const Text = lazy(() => delayForDemo(import("./Text")));
+const Home = () => {
+  return <div>This is Home Component</div>;
+};
 
-function delayForDemo(promise) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
-  }).then(() => promise);
-}
+const About = () => {
+  return <div>This is About Component</div>;
+};
+
+const Contact = () => {
+  return <div>This is Contact Component</div>;
+};
+
+const Profile = () => {
+  const { userName } = useParams();
+  return <div>This is Profile:{userName}</div>;
+};
 
 const App = () => {
-  const count = useSelector((state) => state.counter.counterValue);
-  const dispatch = useDispatch();
-
   return (
     <>
-      <strong>Counter: </strong>
-      {count}
       <div>
-        <button onClick={() => dispatch(increment())}>Increment</button>
-        <button onClick={() => dispatch(decrement())}>Decrement</button>
-        <button onClick={() => dispatch(incrementByAmount(5))}>IncrementByAmount 5</button>
+        <Link to="/" className="mr-3">
+          Home
+        </Link>
+        <Link to="/about" className="mr-3">
+          About
+        </Link>
+        <Link to="/contact" className="mr-3">
+          Contact
+        </Link>
+        <Link to="/profile/ritesh" className="mr-3">
+          Profile
+        </Link>
       </div>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/profile/:userName" element={<Profile />}></Route>
+      </Routes>
     </>
   );
 };
