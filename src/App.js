@@ -1,4 +1,6 @@
 import React, { Suspense, lazy, useMemo, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement, incrementByAmount } from "./reducers/counterSlice";
 import Button from "./Button";
 // import Text from "./Text";
 import Timer from "./Timer";
@@ -20,13 +22,18 @@ function delayForDemo(promise) {
 }
 
 const App = () => {
-  const [showModal, setShowModal] = useState(false);
+  const count = useSelector((state) => state.counter.counterValue);
+  const dispatch = useDispatch();
 
   return (
     <>
-      <h4>This is root component</h4>
-      <button onClick={() => setShowModal(!showModal)}>Toggle Modal</button>
-      {showModal && createPortal(<Modal />, document.body)}
+      <strong>Counter: </strong>
+      {count}
+      <div>
+        <button onClick={() => dispatch(increment())}>Increment</button>
+        <button onClick={() => dispatch(decrement())}>Decrement</button>
+        <button onClick={() => dispatch(incrementByAmount(5))}>IncrementByAmount 5</button>
+      </div>
     </>
   );
 };
