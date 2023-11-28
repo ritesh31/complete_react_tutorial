@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSignal, effect } from "@preact/signals-react";
-import Counter from "./Counter";
 
-const App = () => {
-  // Number
+function Counter() {
+  console.log("Inside Child");
   const [count, setCount] = useState(0);
   const signalCount = useSignal(0);
 
-  // Object
-  const signalObject = useSignal({
-    name: "Ritesh",
-    city: "Pune",
-    mob: "12345",
-  });
-
-  useEffect(() => {
-    console.log("Inside Parent");
-  });
-
   // effect(() => {
-  //   console.log("Inside signal Effect");
-  // });
+  //   console.log("Inside Counter signal Effect");  
+  // })
 
   return (
-    <div style={styles.homeComp}>
-      <h3>Home Component</h3>
+    <div style={styles.CounterComp}>
+      <h3>Child Component</h3>
       <div style={styles.container}>
         <div style={styles.containerOne}>
           Using state
@@ -37,17 +25,16 @@ const App = () => {
           <button onClick={() => signalCount.value++}>Count ++</button>
         </div>
       </div>
-
-      <Counter />
     </div>
   );
-};
+}
 
 const styles = {
-  homeComp: {
+  CounterComp: {
     border: "1px solid",
     padding: "30px",
-    backgroundColor: "lightgray",
+    marginTop: "20px",
+    backgroundColor: "lightblue",
   },
   container: {
     display: "flex",
@@ -57,4 +44,4 @@ const styles = {
   },
 };
 
-export default App;
+export default Counter;
